@@ -1,0 +1,144 @@
+﻿<UserControl x:Class="Cinema_MVVM_PROJECT_WPF.Views.UserControls.ArrangeMovieUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cinema_MVVM_PROJECT_WPF.Views.UserControls" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="1.7*"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="1" Name="admin_panel">
+                <ComboBox Name="movieComboBox"  Margin="10" Height="50" ItemsSource="{Binding Movies}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged" >
+                            <i:InvokeCommandAction Command="{Binding SelectedCommand}" CommandParameter="{Binding ElementName=movieComboBox,Path=SelectedItem,Mode=TwoWay}">
+
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ComboBoxItem>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="100" Height="50" 
+                                       Source="{Binding ImagePath}" Stretch="Fill" Margin="10"></Image>
+                                    <TextBlock Text="{Binding Name}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="20"
+                                           FontFamily="Verdana"
+                                           FontWeight="DemiBold" Margin="10">
+                                    </TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+
+                </ComboBox>
+                <StackPanel>
+                    <Button Width="100" Height="30" Foreground="{StaticResource mainColor}"
+                            FontSize="16" FontWeight="Bold" Command="{Binding GetMoviesCommand}">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                        </Button.Resources>
+                        Get Movies
+                    </Button>
+                </StackPanel>
+                <Border Margin="8,10,10,0" BorderBrush="{StaticResource mainColor}" BorderThickness="1">
+                    <Label Foreground="{StaticResource thirdColor}" FontSize="30"
+                           FontWeight="Bold">
+                        Ticket Details
+                    </Label>
+                </Border>
+
+                <Border Height="60" Margin="8,35,10,0" BorderBrush="{StaticResource mainColor}" BorderThickness="1">
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <StackPanel Name="timePicker_StackPanel" Height="30"  Margin="0,7,0,0" Background="{StaticResource secondColor}">
+
+                        </StackPanel>
+                        
+
+                        <DatePicker Name="datePicker"  Margin="10,7,0,0" Width="275"
+                                    SelectedDateFormat="Short">
+                        </DatePicker>
+                        <RepeatButton Margin="10,0,0,0" Width="35" Content="-" FontWeight="Bold"
+                                  Background="{StaticResource mainColor}"
+                                  Foreground="{StaticResource thirdColor}"
+                                  FontSize="18" 
+                                      Command="{Binding MinusCommand}">
+                            <RepeatButton.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="20"></Setter>
+                                </Style>
+                            </RepeatButton.Resources>
+                        </RepeatButton>
+
+                        <Label FontSize="20" Foreground="{StaticResource thirdColor}"
+                           Width="65" Height="40" HorizontalContentAlignment="Center"
+                               Content="{Binding Count}">
+
+                        </Label>
+
+                        <RepeatButton Margin="10,0,0,0" Width="35" Content="+" FontWeight="Bold"
+                                  Background="{StaticResource mainColor}"
+                                  Foreground="{StaticResource thirdColor}"
+                                  FontSize="18" Command="{Binding PlusCommand}">
+                            <RepeatButton.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="20"></Setter>
+                                </Style>
+                            </RepeatButton.Resources>
+                        </RepeatButton>
+
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal">
+                    <local:TimePickerUC x:Name="timePicker" Margin="20,10,10,10"></local:TimePickerUC>
+                </StackPanel>
+                <Border Margin="6,5,10,0" BorderBrush="{StaticResource mainColor}"
+                        BorderThickness="1">
+                    <StackPanel Margin="10"  Orientation="Horizontal">
+                        <Label FontSize="30" Foreground="{StaticResource thirdColor}">Price</Label>
+                        <TextBox Name="priceTxtbox" TextAlignment="Center" Height="35" Margin="10" FontSize="20" Width="120" Foreground="{StaticResource mainColor }"></TextBox>
+                        <Label Margin="10" FontSize="22" Width="100" HorizontalContentAlignment="Center"
+                           Foreground="{StaticResource thirdColor}" 
+                               Content="{Binding TotalVolume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
+                        <Label Margin="10" FontSize="22" Width="25" HorizontalContentAlignment="Left"
+                           Foreground="{StaticResource mainColor}"
+                           FontWeight="Bold">$</Label>
+                        <TextBlock Margin="10" FontSize="14" Width="50" TextAlignment="Center" 
+                           Foreground="{StaticResource thirdColor}"
+                           FontWeight="Bold" TextWrapping="Wrap">Total Volume</TextBlock>
+
+                    </StackPanel>
+
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Margin="0,10,11,10" HorizontalAlignment="Right"  Background="{StaticResource mainColor}" FontWeight="Bold" FontSize="20" Foreground="{StaticResource thirdColor}"
+                Command="{Binding ConfirmCommand}">Confirm</Button>
+                </StackPanel>
+                <Button Width="300"  Background="{StaticResource mainColor}" FontWeight="Bold" FontSize="30" Foreground="{StaticResource thirdColor}"
+                Command="{Binding DoneCommand}" Content="Confirm"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0">
+                <Image Source="/Images/leftarrow.png">
+                    <Image.InputBindings >
+                        <MouseBinding Gesture="LeftClick" Command="{Binding BackCommand}">
+
+                        </MouseBinding>
+                    </Image.InputBindings>
+                </Image>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
